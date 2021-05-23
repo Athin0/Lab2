@@ -6,6 +6,7 @@
 #define LAB2_VECTOR_H
 
 #include "DynamicArraySequence.h"
+#include "math.h"
 
 template<class T>
 class Vector {
@@ -17,7 +18,7 @@ public:
     Vector() {
     }
 
-    explicit Vector(ArraySequence <T> &arraySequence) {
+    explicit Vector(ArraySequence<T> &arraySequence) {
         this->vector_arr = ArraySequence<T>(arraySequence);
         dimension = arraySequence.GetLength();
     }
@@ -28,7 +29,8 @@ public:
     }
 
     Vector<T> *addVectors(Vector<T> vector) {
-        if (type != vector.type) return nullptr;
+        if (type != vector.type)
+            return nullptr;
         ArraySequence<T> arraySequence1;
         int size = dimension;
         if (dimension >= vector.dimension) {
@@ -45,10 +47,21 @@ public:
         return vector1;
     }
 
+    Vector<T> *scalarMultVector(T a) {
+        ArraySequence<T> arraySequence1(vector_arr);
+        for (int i = 0; i < dimension; ++i) {
+            arraySequence1.Set(vector_arr.Get(i) * a, i);
+        }
+        Vector<T> *vector1 = new Vector<T>(arraySequence1);
+        return vector1;
+    }
+
     Vector<T> *subVectors(Vector<T> vector) {
-        if (type != vector.type) return nullptr;
+        if (type != vector.type)
+            return nullptr;
         ArraySequence<T> arraySequence1;
         int size = dimension;
+        vector = *(vector.scalarMultVector(-1));
         if (dimension >= vector.dimension) {
             arraySequence1 = ArraySequence<T>(vector_arr);
             size = vector.dimension;
@@ -56,15 +69,16 @@ public:
             arraySequence1 = ArraySequence<T>(vector.vector_arr);
         }
         for (int i = 0; i < size; i++) {
-            arraySequence1.Set(vector_arr.Get(i) - vector.vector_arr.Get(i), i);
+            arraySequence1.Set(vector_arr.Get(i) + vector.vector_arr.Get(i), i);
         }
         Vector<T> *vector1 = new Vector<T>(arraySequence1);
         return vector1;
     }
 
     Vector<T> *multVector(Vector<T> vector) {
-        if (type != vector.type) return nullptr;
-        ArraySequence <T> arraySequence1;
+        if (type != vector.type)
+            return nullptr;
+        ArraySequence<T> arraySequence1;
         int size = dimension;
         if (dimension >= vector.dimension) {
             arraySequence1 = ArraySequence<T>(vector.vector_arr);
@@ -79,27 +93,14 @@ public:
         return vector1;
     }
 
-    T GetValue(T item) {
-        T res = vector_arr[0];
+    T GetValue() {
+        T res = (T) 0;
         for (int i = 1; i < vector_arr.GetLength(); i++) {
-            if (vector_arr[i] == 0) continue;
-            T val = item;
-            for (int j = 1; j < i; j++)
-                val *= item;
-
-            res += val * vector_arr[i];
+            if (vector_arr[i] == 0)
+                continue;
+            res += (vector_arr[i]) * (vector_arr[i]);
         }
-
-        return res;
-    }
-
-    Vector<T> *scalarMultVector(T a) {
-        ArraySequence <T> arraySequence1(vector_arr);
-        for (int i = 0; i < dimension; ++i) {
-            arraySequence1.Set(vector_arr.Get(i) * a, i);
-        }
-        Vector<T> *vector1 = new Vector<T>(arraySequence1);
-        return vector1;
+        return sqrt(res);
     }
 
 
@@ -115,32 +116,40 @@ public:
         return cout;
     }
 
-    Vector<T> add(Vector<T> vec0) {
-        ArraySequence <T> *arrRes;
-        for (int i = 0; i < vector_arr.GetLength() && i < vec0.vector_arr.GetLength(); i++) {
-            arrRes->Append(vector_arr[i] + vec0[i]);
-        }
-
-
-        for (int i = arrRes->GetLength(); i < vector_arr.GetLength(); i++) {
-            arrRes->Append(vector_arr[i]);
-        }
-
-        for (int i = arrRes->GetLength(); i < vec0.vector_arr.GetLength(); i++) {
-            arrRes->Append(vec0.vector_arr[i]);
-        }
-
-        vector_arr = *arrRes;
-        delete arrRes;
-
+    Vector<T> &operator=(const Vector<T> &vec0) {
+        vector_arr = vec0.vector_arr;
         return *this;
     }
 
     Vector<T> operator+(Vector<T> vec0) {
-        return Vector<T>(*this).add(vec0);
+        return Vector<T>(*this).addVectors(vec0);
     }
 
+    Vector<T> operator-(Vector<T> vec0) {
+        return Vector<T>(*this).subVectors(vec0);
+    }
 
+    Vector<T> operator*(Vector<T> vec0) {
+        return Vector<T>(*this).multVector(vec0);
+    }
+
+    Vector<T> operator*(T a) {
+        return Vector<T>(*this).scalarMultVector(a);
+    }
+
+    int operator==(Vector<T> vec0) {
+        if (vector_arr.GetLength() != vec0.vector_arr.GetLength())
+            return 0;
+        for (int i = 0; i < vector_arr.GetLength(); i++) {
+            if (vector_arr[i] != vec0.vector_arr[i])
+                return 0;
+        }
+        return 1;
+    }
+
+    int operator!=(Vector<T> vec0) {
+        return !(*this == vec0);
+    }
 };
 
 

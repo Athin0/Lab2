@@ -37,22 +37,26 @@ public:
     }
 
     T GetFirst() {
-        if (linkedlist.GetLength() == 0) throw IndexOutOfRange(0, 0);
+        if (linkedlist.GetLength() == 0)
+            throw IndexOutOfRange(0, 0);
         return linkedlist.GetFirst();
     }
 
     T GetLast() {
-        if (linkedlist.GetLength() == 0) throw IndexOutOfRange(0, 0);
+        if (linkedlist.GetLength() == 0)
+            throw IndexOutOfRange(0, 0);
         return linkedlist.GetLast();
     }
 
     T Get(int index) const {
-        if (index < 0 || index >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), index);
+        if (index < 0 || index >= linkedlist.GetLength())
+            throw IndexOutOfRange(linkedlist.GetLength(), index);
         return linkedlist.Get(index);
     }
 
     void Set(int index,T item) {
-        if (index < 0 || index >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), index);
+        if (index < 0 || index >= linkedlist.GetLength())
+            throw IndexOutOfRange(linkedlist.GetLength(), index);
         return linkedlist.Set(index,item);
     }
 
@@ -88,7 +92,8 @@ public:
     }
 
     void Insert(T item, int index) {
-        if (index < 0 || index >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), index);
+        if (index < 0 || index >= linkedlist.GetLength())
+            throw IndexOutOfRange(linkedlist.GetLength(), index);
         linkedlist.Insert(item, index);
     }
 

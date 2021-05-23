@@ -51,7 +51,7 @@ public:
         }
         return *this;
     }
-    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> &dynamicArray) {  //TODO Убрать из класса
+    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> &dynamicArray) {
         cout << '{';
         for (int i = 0; i < dynamicArray.GetLength(); i++) {
             cout << dynamicArray[i];
@@ -61,7 +61,14 @@ public:
         }
         return cout << '}';
     }
-    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> *dynamicArray) {  //TODO Убрать из класса
+/*
+    DynamicArray<T> operator*(DynamicArray<T> &dynamicArray0) {
+        return DynamicArray<T>(*this).(dynamicArray0);
+    }
+
+ */
+
+    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> *dynamicArray) {
         cout << '{';
         for (int i = 0; i < dynamicArray->GetLength(); i++) {
             cout << dynamicArray[i];
@@ -131,7 +138,8 @@ DynamicArray<T>::~DynamicArray() {      //удаление массива
 
 template<class T>
 T DynamicArray<T>::Get(int index) const {
-    if (index < 0 || index > size) throw IndexOutOfRange();
+    if (index < 0 || index > size)
+        throw IndexOutOfRange();
     return arr[index];
 }
 
@@ -142,14 +150,16 @@ int DynamicArray<T>::GetLength() const {           //получить разме
 
 template<class T>
 void DynamicArray<T>::Set(int index, T value) {               //Задать элемент по индексу
-    if (index < 0 || index >= size) throw IndexOutOfRange();
+    if (index < 0 || index >= size)
+        throw IndexOutOfRange();
     arr[index] = value;
 }
 
 
 template<class T>
 void DynamicArray<T>::Resize(int newSize) {   //TODO переделай
-    if (newSize < 0) throw IndexOutOfRange(); //исключение выхода за массив
+    if (newSize < 0)
+        throw IndexOutOfRange(); //исключение выхода за массив
     if (size == newSize) return;               //длина не изменилась
     if (newSize == 0) {                       //нулевая длина, удаление массива
         if (arr != nullptr)
@@ -157,7 +167,7 @@ void DynamicArray<T>::Resize(int newSize) {   //TODO переделай
         arr = nullptr;
         size = 0;
         return;
-    } else if (newSize > size) {//создание нового массива с выделением памяти и заполнение данных
+    } else if (newSize > size) {              //создание нового массива с выделением памяти и заполнение данных
         T *arrNew = new T[newSize];
         if (arr != nullptr) {
             arrCopy(arrNew, arr, size);

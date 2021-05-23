@@ -9,7 +9,7 @@
 #include <iostream>
 #include "Tests.h"
 
-void mainMenu();
+void mainMenuVector();
 int getType();
 
 //1

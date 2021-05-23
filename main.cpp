@@ -1,9 +1,8 @@
 
-#include "menu.h"
+#include "menuLinForm.h"
 using namespace std;
 
 int main() {
-    mainMenu();
-
+    mainMenuLinForm();
     return 0;
 }

@@ -4,69 +4,8 @@
 
 #include "menu.h"
 #include "DynamicArray.cpp"
-#include "random"
-
-#define maxInt 10000
-
+#include "baseFunc.h"
 using namespace std;
-
-int GetInt() {
-    int k;
-    cin >> k;
-    return k;
-}
-
-int GetInt(int up) {
-    int k;
-    cin >> k;
-    if (k > up) {
-        cout << "Число вне диапозона. Повторите попытку\n";
-        return GetInt(up);
-    }
-    return k;
-}
-
-int GetInt(int down, int up) {
-    int k;
-    cin >> k;
-    if (k > up || k < down) {
-        cout << "Число вне диапозона. Повторите попытку\n";
-        return GetInt(down, up);
-    }
-    return k;
-}
-
-int randomInt() {
-    return rand() % maxInt;
-}
-
-float randomFloat() {
-    return (float) randomInt() + (float) randomInt() / (float) randomInt();
-}
-
-complex<int> randomComplex() {
-    return complex<int>(randomInt(), randomInt());
-}
-
-ostream &operator<<(ostream &cout, complex<int> num) {
-    if (num.imag() == 0) return cout << num.real();
-
-    if (num.real() != 0) {
-        cout << num.real();
-    }
-
-    if (num.imag() > 0) {
-        if (num.real() != 0)
-            cout << '+';
-        if (num.imag() != 1)
-            cout << num.imag();
-        return cout << 'i';
-    } else {
-        if (num.imag() == -1)
-            return cout << "-i";
-        return cout << num.imag() << 'i';
-    }
-}  //красивый вывод комплексного числа
 
 template<class T>
 void printArr(ArraySequence<Vector<T> *> *arr) {
@@ -76,7 +15,7 @@ void printArr(ArraySequence<Vector<T> *> *arr) {
     cout << endl;
 }
 
-void mainMenu() {
+void mainMenuVector() {
     ArraySequence<Vector<int> *> arrInt ;
     ArraySequence<Vector<float> *> arrFloat;
     ArraySequence<Vector<complex<int>> *> arrComplex;
@@ -87,7 +26,7 @@ void mainMenu() {
              << "\t2: Выполнить операцию над векторами\n"
              << "\t3: Вывести вектор в консоль\n"
              << "\t4: Удалить или переместить вектор в памяти\n"
-             << "\t5: Запустить функцию тестирования вектор\n"
+             << "\t5: Запустить функцию тестирования вектора\n"
              << "\t6: Закончить выполнение программы\n"
              << "Введите число: ";
         cin >> item;
@@ -132,16 +71,6 @@ void mainMenu() {
         delete arrComplex.Get(i);
     }
 
-}
-
-int GetType() {
-    cout << "Введите число для работы со следующим типом данных: \n"
-         << "\t1: int\n"
-         << "\t2: float\n"
-         << "\t3: complex<int>\n"
-         << "\t0: Выйти из функции\n"
-         << ": ";
-    return GetInt(0, 3);
 }
 
 //1
@@ -319,24 +248,25 @@ void operationTypeWithVector(ArraySequence<Vector<T> *> *arr) {
                 "\t2: вычесть векторы\n"
                 "\t3: умножить вектор на скаляр\n"
                 "\t4: умножить векторы\n"
-                "\t5: вычислить значение для данного значения аргумента\n"
-                "\t6: выполнить композицию\n: ";
+                "\t5: вычислить значение длины для данного вектора\n: ";
 
-        int item2 = GetInt(0, 6);
+        int item2 = GetInt(0, 5);
 
         if (item2 == 0) continue;
 
         auto *vect1 = arr->Get(item);
         Vector<T> *vect2, *vect3;
-        
-        if (item2 == 3 || item2 == 5) {
+
+        if (item2 == 5) {
+            T res = vect1->GetValue();
+            cout << "Полученное значение длины: " << res << endl << endl;
+            continue;
+        }
+
+        if (item2 == 3) {
             T elem;
             cout << "Введите скаляр\n: ";
             cin >> elem;
-            if (item2 == 5) {
-                cout << "Полученное значение: " << vect1->GetValue(elem) << endl << endl;
-                continue;
-            }
             vect3 = new Vector<T>;
             vect3 = (vect1->scalarMultVector(elem));
         } else {
@@ -363,9 +293,6 @@ void operationTypeWithVector(ArraySequence<Vector<T> *> *arr) {
                     break;
                 case 4:
                     vect3 = vect1->multVector(*vect2);
-                    break;
-                case 6:
-//                    res = vect1->GetValue(*vect2);
                     break;
             }
         }

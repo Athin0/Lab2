@@ -136,7 +136,8 @@ void LinkedList<T>::Prepend(T item) { //добавление в начало
 
 template<class T>
 void LinkedList<T>::Insert(T item, int index) {
-    if (index < 0 || index >= len) throw IndexOutOfRange(len, index);
+    if (index < 0 || index >= len)
+        throw IndexOutOfRange(len, index);
     if (index == 0) {
         Prepend(item);
     } else {
@@ -155,7 +156,8 @@ void LinkedList<T>::Insert(T item, int index) {
 template<class T>
 //задает значение какому либо элементу
 void LinkedList<T>::Set(T index, int item) {
-    if (index < 0 || index >= len) throw IndexOutOfRange(len, index);
+    if (index < 0 || index >= len)
+        throw IndexOutOfRange(len, index);
     element *el = head;
     for (int i = 0; i < index; i++, el = el->next);
     el->data = item;

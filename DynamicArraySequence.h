@@ -35,20 +35,6 @@ public:
         cout << '}';
         return cout;
     }
-    /*
-    friend std::ostream &operator<<(std::ostream &cout, ArraySequence<T> *vector_arr) {
-        cout << '{';
-        for (int i = 0; i < vector_arr->GetLength(); i++) {
-            cout << vector_arr->dynamicArray[i];
-            if (i != vector_arr->GetLength() - 1) {
-                cout << ", ";
-            }
-        }
-        cout << '}';
-        return cout;
-    }
-
-     */
 
     ArraySequence() {
         dynamicArray = DynamicArray<T>();
@@ -63,27 +49,32 @@ public:
     }
 
     T GetFirst() {
-        if (GetLength() == 0) throw IndexOutOfRange(GetLength(), 0);
+        if (GetLength() == 0)
+            throw IndexOutOfRange(GetLength(), 0);
         return dynamicArray.Get(0);
     }
 
     T GetLast() {
-        if (GetLength() == 0) throw IndexOutOfRange(GetLength(), -1);
+        if (GetLength() == 0)
+            throw IndexOutOfRange(GetLength(), -1);
         return dynamicArray.Get(dynamicArray.GetLength() - 1);
     }
 
     T Get(int index) const {
-        if (index < 0 || index >= GetLength()) throw IndexOutOfRange(GetLength(), index);
+        if (index < 0 || index >= GetLength())
+            throw IndexOutOfRange(GetLength(), index);
         return dynamicArray.Get(index);
     }
 
     void Set(T item,int index) {
-        if (index < 0 || index >= GetLength()) throw IndexOutOfRange(GetLength(), index);
+        if (index < 0 || index >= GetLength())
+            throw IndexOutOfRange(GetLength(), index);
         dynamicArray.Set(index, item);
     }
 
     T &operator[](int index) {
-        if (index < 0 || index >= GetLength()) throw IndexOutOfRange(GetLength(), index);
+        if (index < 0 || index >= GetLength())
+            throw IndexOutOfRange(GetLength(), index);
         return dynamicArray[index];
     }
 
@@ -126,7 +117,8 @@ public:
     }
 
     void Insert(T item, int index) {
-        if (index < 0 || index >= dynamicArray.GetLength()) throw IndexOutOfRange(dynamicArray.GetLength(), index);
+        if (index < 0 || index >= dynamicArray.GetLength())
+            throw IndexOutOfRange(dynamicArray.GetLength(), index);
         dynamicArray.Resize(dynamicArray.GetLength() + 1);
         for (int i = dynamicArray.GetLength() - 2; i >= index; i--) {
             dynamicArray[i + 1] = dynamicArray[i];
@@ -149,7 +141,8 @@ public:
         dynamicArray.Reverse();
     }
     T Pop() {
-        if (dynamicArray.GetLength() == 0) throw IndexOutOfRange(0, -1);
+        if (dynamicArray.GetLength() == 0)
+            throw IndexOutOfRange(0, -1);
         T item = dynamicArray[dynamicArray.GetLength() - 1];
         dynamicArray.Resize(dynamicArray.GetLength() - 1);
         return item;
