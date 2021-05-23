@@ -6,12 +6,11 @@
 #define LAB2_LINKEDLISTSEQUENCE_H
 
 #include "Sequence.h"
-#include "LinkedList.cpp"
+#include "LinkedList.h"
 
 template<class T>
-class LinkedListSequence : Sequence<T> {
-//private:
-public:
+class LinkedListSequence : public Sequence<T> {
+private:
     LinkedList<T> linkedlist;
 public:
     class IndexOutOfRange {
@@ -29,13 +28,7 @@ public:
     }
 
     LinkedListSequence(T *items, int count) {
-        linkedlist= LinkedList<T>(items, count);
-        cout<< linkedlist <<"its just init\n \n";
-
-
-        LinkedList<T>l(items, count);
-        linkedlist =l;
-        cout<<linkedlist<<"Its init with dop T \n \n";
+        linkedlist = LinkedList<T>(items, count);
     }
 
 //проверить
@@ -53,14 +46,14 @@ public:
         return linkedlist.GetLast();
     }
 
-    T Get(int index) {
+    T Get(int index) const {
         if (index < 0 || index >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), index);
         return linkedlist.Get(index);
     }
 
-    void Set(T item, int index) {
+    void Set(int index,T item) {
         if (index < 0 || index >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), index);
-        return linkedlist.Set(item, index);
+        return linkedlist.Set(index,item);
     }
 
     T &operator[](int index) {
@@ -68,15 +61,21 @@ public:
         return linkedlist[index];
     }
 
-    Sequence<T> *GetSubSequence(int startIndex, int endIndex) {
+    LinkedListSequence<T> *GetSubSequence(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= linkedlist.GetLength())
             throw IndexOutOfRange(linkedlist.GetLength(), startIndex);
-        if (endIndex < 0 || endIndex >= linkedlist.GetLength()) throw IndexOutOfRange(linkedlist.GetLength(), endIndex);
-        auto *res = new LinkedListSequence<T>(linkedlist.GetSubList(startIndex, endIndex));
+
+        if (endIndex < 0 || endIndex > linkedlist.GetLength())
+            throw IndexOutOfRange(linkedlist.GetLength(), endIndex);
+
+        auto *resList = linkedlist.GetSubList(startIndex, endIndex);
+        auto *res = new LinkedListSequence<T>(*resList);
+        delete resList;
+
         return res;
     }
 
-    int GetLength() {
+    int GetLength() const {
         return linkedlist.GetLength();
     }
 
@@ -99,6 +98,13 @@ public:
             Append(list->Get(i));
         }
         return this;
+    }
+
+    friend std::ostream& operator << (std::ostream& cout, LinkedListSequence<T> linkedListSequence) {
+        return cout << linkedListSequence.linkedlist;
+    }
+    friend std::ostream& operator << (std::ostream& cout, LinkedListSequence<T> *linkedListSequence) {
+        return cout << linkedListSequence->linkedlist;
     }
 };
 
