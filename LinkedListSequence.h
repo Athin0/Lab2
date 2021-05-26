@@ -97,7 +97,6 @@ public:
         linkedlist.Insert(item, index);
     }
 
-    //проверить
     Sequence<T> *Concat(Sequence<T> *list) {
         for (int i = 0; i < list->GetLength(); i++) {
             Append(list->Get(i));
@@ -111,6 +110,7 @@ public:
     friend std::ostream& operator << (std::ostream& cout, LinkedListSequence<T> *linkedListSequence) {
         return cout << linkedListSequence->linkedlist;
     }
+
 };
 
 #endif //LAB2_LINKEDLISTSEQUENCE_H

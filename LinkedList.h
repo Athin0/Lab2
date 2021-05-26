@@ -73,7 +73,7 @@ public:
         }
     }
 
-    void operator = (LinkedList<T> *linkedList); //TODO Переделай аргумент на linkedList без *, тогда не надо будет писать new
+    void operator = (LinkedList<T> *linkedList);
     void Delete();
 
     friend std::ostream &operator<<(std::ostream &cout, LinkedList<T> linkedList) { //TODO убрать из класса
@@ -88,18 +88,7 @@ public:
         cout << '}';
         return cout;
     }
-    friend std::ostream &operator<<(std::ostream &cout, LinkedList<T> *linkedList) { //TODO убрать из класса
-        element *el = linkedList->head;
-        cout << '{';
-        while (el != nullptr) {
-            cout << el->data;
-            if (el->next)
-                cout << ", ";
-            el = el->next;
-        }
-        cout << '}';
-        return cout;
-    }
+
 
 };
 
@@ -109,7 +98,6 @@ void LinkedList<T>::Append(T item) {  //добавление элемента в
     auto *el = new element;             //создание элемента с входными данными
     el->data = item;
     el->next = nullptr;
-
     len++;
     if (head == nullptr) {              //проверка на пустоту списка
         head = el;
@@ -281,6 +269,5 @@ void LinkedList<T>:: Delete() {
     ending = nullptr;
 }
 
-/**/
 
 #endif //LAB2_LINKEDLIST_H

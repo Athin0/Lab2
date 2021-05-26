@@ -1,6 +1,4 @@
-//
-// Created by arina on 23.05.2021.
-//
+
 
 #ifndef LAB2_MENULINFORM_H
 #define LAB2_MENULINFORM_H
@@ -8,7 +6,7 @@
 #include <complex>
 #include "LinForm.h"
 #include <iostream>
-#include "Tests.h"
+#include "Lab2/Tests.h"
 
 
 void mainMenuLinForm();
@@ -50,7 +48,5 @@ ArraySequence<LinForm<std::complex<int>>*> *complexArr);
 template<class T>
 void deleteTypeLinForm(ArraySequence<LinForm<T>*> *arr);
 
-//5
-void testFunc();
 
 #endif //LAB2_MENULINFORM_H

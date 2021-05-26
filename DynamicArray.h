@@ -51,33 +51,7 @@ public:
         }
         return *this;
     }
-    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> &dynamicArray) {
-        cout << '{';
-        for (int i = 0; i < dynamicArray.GetLength(); i++) {
-            cout << dynamicArray[i];
-            if (i < dynamicArray.GetLength() - 1) {
-                cout << ", ";
-            }
-        }
-        return cout << '}';
-    }
-/*
-    DynamicArray<T> operator*(DynamicArray<T> &dynamicArray0) {
-        return DynamicArray<T>(*this).(dynamicArray0);
-    }
 
- */
-
-    friend std::ostream &operator << (std::ostream &cout, DynamicArray<T> *dynamicArray) {
-        cout << '{';
-        for (int i = 0; i < dynamicArray->GetLength(); i++) {
-            cout << dynamicArray[i];
-            if (i < dynamicArray->GetLength() - 1) {
-                cout << ", ";
-            }
-        }
-        return cout << '}';
-    }
     void Reverse() {
         for (auto i = 0; i < GetLength() / 2; i++) {
             int index = GetLength() - 1 - i;
@@ -185,5 +159,30 @@ void DynamicArray<T>::Resize(int newSize) {   //TODO переделай
         size = newSize;
     }
 
+}
+
+template<class T>
+std::ostream &operator << (std::ostream &cout, DynamicArray<T> dynamicArray) {
+    /*cout << '{';
+    for (int i = 0; i < dynamicArray.GetLength(); i++) {
+        cout << dynamicArray[i];
+        if (i < dynamicArray.GetLength() - 1) {
+            cout << ", ";
+        }
+    }*/
+    return cout << &dynamicArray;
+}
+
+
+template<class T>
+std::ostream &operator << (std::ostream &cout, DynamicArray<T> *dynamicArray) {
+    cout << '{';
+    for (int i = 0; i < dynamicArray->GetLength(); i++) {
+        cout << (*dynamicArray)[i];
+        if (i < dynamicArray->GetLength() - 1) {
+            cout << ", ";
+        }
+    }
+    return cout << '}';
 }
 #endif //LAB2_DYNAMICARRAY_H

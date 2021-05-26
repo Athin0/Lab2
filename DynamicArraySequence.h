@@ -24,17 +24,6 @@ public:
         IndexOutOfRange() : length(-1), index(-1) {};
     };
 
-    friend std::ostream &operator<<(std::ostream &cout, ArraySequence<T> &arraySequence) {
-        cout << '{';
-        for (int i = 0; i < arraySequence.GetLength(); i++) {
-            cout << arraySequence.dynamicArray[i];
-            if (i != arraySequence.GetLength() - 1) {
-                cout << ", ";
-            }
-        }
-        cout << '}';
-        return cout;
-    }
 
     ArraySequence() {
         dynamicArray = DynamicArray<T>();
@@ -44,7 +33,7 @@ public:
         dynamicArray = DynamicArray<T>(items, count);
     }
 
-    ArraySequence(const DynamicArray<T> &array) {
+    explicit ArraySequence(const DynamicArray<T> &array) {
         dynamicArray = array;
     }
 
@@ -83,6 +72,7 @@ public:
         dynamicArray = arraySequence.dynamicArray;
         return *this;
     }
+
 
     ArraySequence<T> *GetSubSequence(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= GetLength())
@@ -160,7 +150,18 @@ public:
         return item;
     }
 };
-
+template<class T>
+std::ostream &operator<<(std::ostream &cout, ArraySequence<T>arraySequence) {
+    cout << '{';
+    for (int i = 0; i < arraySequence.GetLength(); i++) {
+        cout << arraySequence[i];
+        if (i != arraySequence.GetLength() - 1) {
+            cout << ", ";
+        }
+    }
+    cout << '}';
+    return cout;
+}
 #endif //LAB2_ArraySequence_H
 
 /*

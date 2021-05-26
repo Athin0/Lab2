@@ -1,11 +1,11 @@
-//
-// Created by arina on 23.05.2021.
-//
+
 
 #include "menuLinForm.h"
 #include "DynamicArray.cpp"
 #include "random"
 #include "baseFunc.h"
+#include "test.h"
+#include "menuVector.h"
 
 #define maxInt 10000
 
@@ -56,7 +56,7 @@ void mainMenuLinForm() {
                 deleteLinForm(&arrInt, &arrFloat, &arrComplex);
                 break;
             case 5:
-//                testFunc();
+                testFunc();
                 break;
             default:
                 break;
@@ -390,6 +390,7 @@ void deleteLinForm(ArraySequence<LinForm<int> *> *intArr,
             break;
     }
 }
+
 
 template<class T>
 void deleteTypeLinForm(ArraySequence<LinForm<T>* > *arr) {
